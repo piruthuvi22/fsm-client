@@ -1,0 +1,73 @@
+body.add-user {
+	background-color: #f7f9fb;
+	font-size: 14px;
+}
+
+
+
+.add .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+}
+
+.add-user.brand img {
+	width: 100%;
+}
+
+.add-user .card-wrapper {
+	width: 400px;
+}
+
+.add-user .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.add-user .card.fat {
+	padding: 10px;
+	background-color: #f0f0f0;
+}
+
+.add-user .card .card-title {
+	margin-bottom: 30px;
+}
+
+.add-user .form-control {
+	border-width: 2.3px;
+}
+
+.add-user .form-group label {
+	width: 100%;
+}
+
+.add-user .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.add-user .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+	.add-user .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.add-user .card.fat {
+		padding: 0;
+	}
+
+	.add-user .card.fat .card-body {
+		padding: 15px;
+	}
+}
