@@ -1,6 +1,7 @@
 import React, { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as MdIcons from "react-icons/md";
+import {Link} from "react-router-dom";
 
 const TaskDetails = ({ value }) => {
   const navigate = useNavigate();
@@ -76,6 +77,9 @@ const TaskDetails = ({ value }) => {
           />
         </div>
       </div>
+      <Link to={`/assign-agent/${value.id}`}>
+      <button className="btn btn-info btn-lg me-4">Assign</button>
+      </Link>
     </div>
   );
 };

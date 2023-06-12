@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 import Resources from "./pages/Resources";
 import AdminDashboard from "./pages/AdminDashboard";
 import WorkStatus from "./pages/WorkStatus";
+import AssignAgent from "./pages/AssignAgent";
 
 
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/work-status" element={<WorkStatus />} />
+          <Route path="/assign-agent/:taskId" element={<AssignAgent />} />
         </Routes>
       </Router>
       <ToastContainer
