@@ -1,139 +1,125 @@
-import react,{useState} from 'react';
-import './loginpage.css';
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import ForgetPasswordModal from "../components/ForgetPasswordModal";
-import ChangePasswordModal from '../components/ChangePasswordModal';
 
+const Login = () => {
+  const [credentials, setCredentials] = useState({
+    userName: '',
+    password: ''
+  });
 
-import {Alert,Spinner} from 'react-bootstrap';
+  const [error, setError] = useState('');
 
-const Login=({loading,error,...props})=>{
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setError('');
+  };
 
-
-
-
-
-    const [values, setValues] = useState({
-        userName: '',
-        password: ''
-        });
-
-    const handleSubmit=(evt)=>{
-        evt.preventDefault();
-        props.authenticate();
-
-
-        //console.log("Loading again",loading);
-
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { username, password } = credentials;
+    if (username.trim() === '' || password.trim() === '') {
+      setError('Please enter username and password');
+      return;
     }
+    try {
+      // Send a POST request to login endpoint
+      const response = await fetch('http://localhost:8080/createUser/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      });
+      // Handle the response
+      if (response.ok) {
+        const data = await response.json();
+        // Success: Login successful
+        console.log('Login successful');
+        console.log('Token:', data.token); // Assuming the response includes a token
+      } else {
+        // Error: Failed to login
+        console.error('Failed to login');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
-    const handleChange = (e) => {
-        e.persist();
-        setValues(values => ({
-        ...values,
-        [e.target.name]: e.target.value
-        }));
-    };
+  return (
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <label style={labelStyle}>
+          Username:
+          <input
+            type="text"
+            name="username"
+            value={credentials.username}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+        </label>
+        <br />
+        <label style={labelStyle}>
+          Password:
+          <input
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+        </label>
+        <br />
+        {error && <p style={errorStyle}>{error}</p>}
+        <button type="submit" style={buttonStyle}>Login</button>
+      </form>
+    </div>
+  );
+};
 
-    console.log("Loading ",loading);
+// CSS styles as JavaScript objects
+const containerStyle = {
+  maxWidth: '400px',
+  margin: '0 auto',
+  padding: '20px',
+  backgroundColor: '#f2f2f2',
+  borderRadius: '5px'
+};
 
-    return (
-        <div className="login-page">
+const titleStyle = {
+  textAlign: 'center',
+  marginBottom: '20px'
+};
 
+const labelStyle = {
+  display: 'block',
+  marginBottom: '10px',
+  fontWeight: 'bold'
+};
 
+const inputStyle = {
+  width: '100%',
+  padding: '10px',
+  marginBottom: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '5px'
+};
 
-        <section className="h-100">
-        <div className="container h-100">
+const buttonStyle = {
+  display: 'block',
+  width: '100%',
+  padding: '10px',
+  backgroundColor: '#4caf50',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer'
+};
 
-            <div className="row justify-content-md-center h-100">
-
-                <div className="card-wrapper">
-
-                    <div className="card fat">
-                        <div className="card-body">
-                            <h4 className="card-title">Login</h4>
-
-                            <form className="my-login-validation" onSubmit={handleSubmit} noValidate={false}>
-                                <div className="form-group">
-                                    <label htmlFor="email">User Name</label>
-                                    <input id="username" type="text" className="form-control" minLength={5} value={values.userName} onChange={handleChange} name="userName" required />
-
-                                        <div className="invalid-feedback">
-                                            UserId is invalid
-                                        </div>
-
-
-
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Password
-                                        <a href="forgot.html" className="float-right">
-                                            Forgot Password?
-                                        </a>
-                                    </label>
-                                    <input id="password" type="password" className="form-control" minLength={8} value={values.password} onChange={handleChange} name="password" required/>
-                                    <div className="invalid-feedback">
-                                        Password is required
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <div className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                                     </div>
-                                </div>
-
-
-                                <div className="form-group m-0">
-                                    <button type="submit" className="btn btn-primary">
-                                        Login
-                                        {loading && (
-                                            <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {/* <ClipLoader
-                                        //css={override}
-                                        size={20}
-                                        color={"#123abc"}
-                                        loading={loading}
-                                        /> */}
-                                    </button>
-                                </div>
-                            </form>
-                            { error &&
-                            <Alert style={{marginTop:'20px'}} variant="danger">
-                                    {error}
-                                </Alert>
-
-                            }
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-        </div>
-    )
-
-
-
-}
-
-
-
-
-
-
+const errorStyle = {
+  color: 'red',
+  fontSize: '14px',
+  marginTop: '5px'
+};
 
 export default Login;

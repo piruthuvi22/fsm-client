@@ -13,7 +13,7 @@ import Helpdesk from "./pages/Helpdesk";
 import Tasks from "./pages/Task";
 import Complaints from "./pages/Complaints";
 import Customers from "./pages/Customer";
-import Login from "./pages/login";
+import Login from "./login/login";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile";
 import Resources from "./pages/Resources";
