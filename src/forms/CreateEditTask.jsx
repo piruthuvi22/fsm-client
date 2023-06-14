@@ -18,7 +18,7 @@ const CreateEditTask = ({ refetchRecords, oldRecord = null }) => {
     setTitle(oldRecord?.title);
     setDescription(oldRecord?.description);
     setAddress(oldRecord?.address);
-    setPhoneNumber(oldRecord?.phoneNumber);
+    setPhoneNumber(oldRecord?.customerPhoneNumber);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -27,11 +27,10 @@ const CreateEditTask = ({ refetchRecords, oldRecord = null }) => {
     if (oldRecord !== null) {
       let task = await updateTask({
         id: oldRecord.id,
-        customer_id: customerid,
         title,
         description,
         address,
-        phoneNumber,
+        customerPhoneNumber: phoneNumber,
       });
       setLoading(false);
       task.data.id && toast.success("Task updated successfully");
@@ -39,11 +38,12 @@ const CreateEditTask = ({ refetchRecords, oldRecord = null }) => {
       await refetchRecords();
     } else {
       let response = await addTask({
-        customer_id: customerid,
+        date: new Date().toLocaleDateString(),
         title,
         description,
         address,
-        phoneNumber,
+        customerPhoneNumber: phoneNumber,
+        status: "PENDING",
       });
 
       response.data.id && toast.success("Task created successfully");
@@ -55,7 +55,7 @@ const CreateEditTask = ({ refetchRecords, oldRecord = null }) => {
 
   const resetForm = () => {
     setAddress("");
-    setCustomerId("");
+    // setCustomerId("");
     setDescription("");
     setPhoneNumber("");
     setTitle("");
@@ -70,27 +70,8 @@ const CreateEditTask = ({ refetchRecords, oldRecord = null }) => {
             <div className="form-group">
               <div className="row m-0">
                 <div className="col col-12 col-md-4 ps-0">
-                  <label htmlFor="customerid" className="form-label">
-                    Customer ID
-                  </label>
-
-                  {/* Fetch all customer data and map into the select box */}
-
-                  <input
-                    type="text"
-                    className="form-control  mb-2"
-                    name="customerid"
-                    id="customerid"
-                    required
-                    disabled={loading}
-                    value={customerid}
-                    onChange={(event) => setCustomerId(event.target.value)}
-                  />
-                </div>
-
-                <div className="col col-12 col-md-4 ps-0">
                   <label htmlFor="phoneNumber" className="form-label">
-                    Phone Number
+                    Customer Phone Number
                   </label>
                   <input
                     type="text"

@@ -1,53 +1,57 @@
 import * as BiIcons from "react-icons/bi";
 import * as AiIcons from "react-icons/ai";
 
-function TaskList({ handleDetailsModal, onDeleteTask, onEditTask, data }) {
-  return data?.map((task) => (
-    <tr key={task.id} className="align-middle">
-      <th scope="row">{task.customerPhoneNumber}</th>
-      <td className="td-title" onClick={() => handleDetailsModal(task)}>{task.title}</td>
+function SupervisorList({ onDeleteSupervisor, onEditSupervisor, data }) {
+  return data?.map((supervisor) => (
+    <tr key={supervisor.id} className="align-middle">
+      <td scope="row">{supervisor.firstname}</td>
+
       <td
-        onClick={() => handleDetailsModal(task)}
-        className="limit-text td-description"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title={task.description}
+        title={supervisor.lastname}
       >
-        {task.description}
+        {supervisor.lastname}
+      </td>
+      <td
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title={supervisor.email}
+      >
+        {supervisor.email}
       </td>
 
       <td
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title={task.address}
+        title={supervisor.phonenumber}
       >
-        {task.address}
+        {supervisor.phonenumber}
       </td>
-      <td>{task.date}</td>
-      <td>{task.status}</td>
+
       <td className="text-center">
         <BiIcons.BiEditAlt
           data-toggle="tooltip"
           data-placement="top"
-          title="Edit task"
+          title="Edit supervisor"
           role="button"
           size={25}
           color="#A020F0"
-          onClick={() => onEditTask(task)}
+          onClick={() => onEditSupervisor(supervisor)}
         />
       </td>
       <td className="text-center">
         <AiIcons.AiOutlineDelete
           data-toggle="tooltip"
           data-placement="top"
-          title="Delete task"
+          title="Delete supervisor"
           role="button"
           size={25}
           color="#FF0000"
-          onClick={() => onDeleteTask(task.id)}
+          onClick={() => onDeleteSupervisor(supervisor.id)}
         />
       </td>
     </tr>
   ));
 }
-export default TaskList;
+export default SupervisorList;
